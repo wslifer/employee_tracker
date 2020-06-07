@@ -25,20 +25,28 @@ function init() {
     .then(({ action }) => {
       switch (action) {
         case "Add Employee":
+          addEmployee();
           break;
         case "Add Department":
+          addDept();
           break;
         case "Add Role":
+          addRole();
           break;
         case "View Employees":
+          viewEmpls();
           break;
         case "View Departments":
+          viewDepts();
           break;
         case "View Roles":
+          viewRoles();
           break;
         case "Update employee role":
+          updateEmpl();
           break;
         case "Remove Employee":
+          removeEmpl();
           break;
         case "Exit":
           connection.end();
