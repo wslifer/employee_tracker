@@ -57,3 +57,20 @@ function init() {
       }
     });
 }
+
+async function viewEmpls() {
+  const employees = await db.findAllEmployees();
+
+  console.table(employees);
+
+  init();
+}
+
+async function addEmployee() {
+  const employees = await db.findAllEmployees();
+  const managerChoice = employee.map(({ id, first_name, last_name }) => ({
+    value: id,
+    name: first_name,
+    name: last_name,
+  }));
+}
