@@ -146,7 +146,56 @@ function init() {
       });
   }
   // Function to view roles
+  function viewRoles() {
+    connection.query(`SELECT * FROM role`, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      init();
+    });
+  }
   // Function to add a role
+  function addRole() {
+    inquirer
+      .prompt([
+        {
+          name: "roleID",
+          type: "input",
+          message: "Enter role ID",
+        },
+        {
+          name: "roleTitle",
+          type: "input",
+          message: "Enter role title.",
+        },
+        {
+          name: "salary",
+          type: "input",
+          message: "Enter salary for role.",
+        },
+        {
+          name: "departmentID",
+          type: "input",
+          message: "Enter ID of department role belongs to.",
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          `INSERT INTO role SET ?`,
+          {
+            id: answers.roleID,
+            title: answers.roleTitle,
+            salary: answers.salary,
+            department_id: answers.departmentID,
+          },
+          (err) => {
+            if (err) throw err;
+            console.log(`Role added.`);
+            init();
+          }
+        );
+      });
+  }
   // Function to update employee role
+
   // Function to remove employee
 }
