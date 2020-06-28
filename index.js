@@ -1,6 +1,6 @@
 const connection = require("./assets/connection");
 const inquirer = require("inquirer");
-const db = require("./assets/db");
+
 
 init();
 
@@ -56,21 +56,18 @@ function init() {
           break;
       }
     });
+
+// Function for viewing employees 
+function viewEmpls() {
+  connection.query(`SELECT * FROM employee`, (err, res) => {
+    if (err) {
+      console.error(err)
+    }
+    console.table(res);
+    init();
+  })
 }
 
-async function viewEmpls() {
-  const employees = await db.findAllEmployees();
-
-  console.table(employees);
-
-  init();
-}
-
-async function addEmployee() {
-  const employees = await db.findAllEmployees();
-  const managerChoice = employee.map(({ id, first_name, last_name }) => ({
-    value: id,
-    name: first_name,
-    name: last_name,
-  }));
+// Function to add an employee
+function addEmployee() {};
 }
