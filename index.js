@@ -196,6 +196,44 @@ function init() {
       });
   }
   // Function to update employee role
+  function updateEmpl() {
+    connection.query(`SELECT * FROM employee`, (err, res) => {
+      if (err) throw err;
+      console.log("Employees");
+      console.table(res);
+    });
 
+    connection.query(`SELECT * FROM role`, (err, res) => {
+      if (err) throw err;
+      console.log("Roles");
+      console.table(res);
+    });
+    {
+      inquirer
+        .prompt([
+          {
+            name: "employeeID",
+            type: "input",
+            message: "Enter the employee ID  who's role you want to update.",
+          },
+          {
+            name: "roleID",
+            type: "input",
+            message: "Enter new role ID.",
+          },
+        ])
+        .then((answers) => {
+          connection.query(
+            "UPDATE employee SET role_id = ? WHERE id = ?",
+            [answers.roleID, answers.employeeID],
+            (err) => {
+              if (err) throw err;
+              console.log("Employee role updated");
+              init();
+            }
+          );
+        });
+    }
+  }
   // Function to remove employee
 }
