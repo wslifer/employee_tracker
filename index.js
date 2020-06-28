@@ -69,5 +69,50 @@ function viewEmpls() {
 }
 
 // Function to add an employee
-function addEmployee() {};
+function addEmployee() {
+  inquirer.prompt([
+    {
+      name: "employeeId",
+      type: "input",
+      message: "Enter employee ID"
+  },
+  {
+      name: "firstName",
+      type: "input",
+      message: "Enter employee's first name."
+  },
+  {
+      name: "lastName",
+      type: "input",
+      message: "Enter employee's last name."
+  },
+  {
+      name: "roleId",
+      type: "input",
+      message: "Enter ID of employee's role."
+  }
+  ]).then((answers) => {
+    connection.query(
+      `INSERT INTO employee SET ?`,
+      {
+          id: answers.employeeId,
+          first_name: answers.firstName,
+          last_name: answers.lastName,
+          role_id: answers.roleId
+      },
+      (err) => {
+          if (err) throw err;
+          console.log(`Employee Added`);
+          init();
+      }
+  )
+  })
+};
+// Function to view departments
+// Function to add a department
+// Function to view roles
+// Function to add a role
+// Function to update employee role
+// Function to remove employee
+
 }
