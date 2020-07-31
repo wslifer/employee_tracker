@@ -68,9 +68,11 @@ async function viewEmpls() {
 
 async function addEmployee() {
   const employees = await db.findAllEmployees();
-  const managerChoice = employee.map(({ id, first_name, last_name }) => ({
+  const managerChoices = employee.map(({ id, first_name, last_name }) => ({
     value: id,
     name: first_name,
     name: last_name,
   }));
+  managerChoices.unshift({ value: null, name: "None" });
+  console.log(managerChoices);
 }
