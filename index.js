@@ -1,6 +1,5 @@
 const connection = require("./assets/connection");
 const inquirer = require("inquirer");
-const db = require("./assets/db");
 
 init();
 
@@ -56,23 +55,185 @@ function init() {
           break;
       }
     });
-}
 
-async function viewEmpls() {
-  const employees = await db.findAllEmployees();
+  // Function for viewing employees
+  function viewEmpls() {
+    connection.query(`SELECT * FROM employee`, (err, res) => {
+      if (err) {
+        console.error(err);
+      }
+      console.table(res);
+      init();
+    });
+  }
 
-  console.table(employees);
+  // Function to add an employee
+  function addEmployee() {
+    inquirer
+      .prompt([
+        {
+          name: "employeeId",
+          type: "input",
+          message: "Enter employee ID",
+        },
+        {
+          name: "firstName",
+          type: "input",
+          message: "Enter employee's first name.",
+        },
+        {
+          name: "lastName",
+          type: "input",
+          message: "Enter employee's last name.",
+        },
+        {
+          name: "roleId",
+          type: "input",
+          message: "Enter ID of employee's role.",
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          `INSERT INTO employee SET ?`,
+          {
+            id: answers.employeeId,
+            first_name: answers.firstName,
+            last_name: answers.lastName,
+            role_id: answers.roleId,
+          },
+          (err) => {
+            if (err) throw err;
+            console.log(`Employee Added`);
+            init();
+          }
+        );
+      });
+  }
+  // Function to view departments
+  function viewDepts() {
+    connection.query(`SELECT * FROM department`, (err, res) => {
+      if (err) throw err;
+      console.table(res);
 
-  init();
-}
+      init();
+    });
+  }
+  // Function to add a department
+  function addDept() {
+    inquirer
+      .prompt([
+        {
+          name: "deptName",
+          type: "input",
+          message: "Enter your department name.",
+        },
+        {
+          name: "deptId",
+          type: "input",
+          message: "Insert your department ID.",
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          `INSERT INTO department SET ?`,
+          { id: answers.deptId, name: answers.deptName },
+          (err) => {
+            if (err) throw err;
+            console.log(`Department added.`);
+            init();
+          }
+        );
+      });
+  }
+  // Function to view roles
+  function viewRoles() {
+    connection.query(`SELECT * FROM role`, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      init();
+    });
+  }
+  // Function to add a role
+  function addRole() {
+    inquirer
+      .prompt([
+        {
+          name: "roleID",
+          type: "input",
+          message: "Enter role ID",
+        },
+        {
+          name: "roleTitle",
+          type: "input",
+          message: "Enter role title.",
+        },
+        {
+          name: "salary",
+          type: "input",
+          message: "Enter salary for role.",
+        },
+        {
+          name: "departmentID",
+          type: "input",
+          message: "Enter ID of department role belongs to.",
+        },
+      ])
+      .then((answers) => {
+        connection.query(
+          `INSERT INTO role SET ?`,
+          {
+            id: answers.roleID,
+            title: answers.roleTitle,
+            salary: answers.salary,
+            department_id: answers.departmentID,
+          },
+          (err) => {
+            if (err) throw err;
+            console.log(`Role added.`);
+            init();
+          }
+        );
+      });
+  }
+  // Function to update employee role
+  function updateEmpl() {
+    connection.query(`SELECT * FROM employee`, (err, res) => {
+      if (err) throw err;
+      console.log("Employees");
+      console.table(res);
+    });
 
-async function addEmployee() {
-  const employees = await db.findAllEmployees();
-  const managerChoices = employee.map(({ id, first_name, last_name }) => ({
-    value: id,
-    name: first_name,
-    name: last_name,
-  }));
-  managerChoices.unshift({ value: null, name: "None" });
-  console.log(managerChoices);
+    connection.query(`SELECT * FROM role`, (err, res) => {
+      if (err) throw err;
+      console.log("Roles");
+      console.table(res);
+    });
+    {
+      inquirer
+        .prompt([
+          {
+            name: "employeeID",
+            type: "input",
+            message: "Enter the employee ID  who's role you want to update.",
+          },
+          {
+            name: "roleID",
+            type: "input",
+            message: "Enter new role ID.",
+          },
+        ])
+        .then((answers) => {
+          connection.query(
+            "UPDATE employee SET role_id = ? WHERE id = ?",
+            [answers.roleID, answers.employeeID],
+            (err) => {
+              if (err) throw err;
+              console.log("Employee role updated");
+              init();
+            }
+          );
+        });
+    }
+  }
+  // Function to remove employee
 }
