@@ -1,4 +1,4 @@
-# React Portfolio
+# Employee Tracker
 
 ![Github](https://img.shields.io/github/last-commit/wslifer/employee_tracker)
 
