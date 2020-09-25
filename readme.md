@@ -17,13 +17,13 @@ https://drive.google.com/file/d/1--8FGoylf_rpfDjaK5I4hU7l5jIr2Bo3/view
 - [Test](##Test)
 - [Contributors](##Contributors)
 - [Contact](##Contact)
--
 
 ## Installation
 
 npm i
 
-##Technologies/Languages
+## Technologies/Languages
+
 JavaScript, MySQL, Inquirer
 
 ## Test
